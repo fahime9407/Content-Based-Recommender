@@ -12,7 +12,7 @@ selected_movies = [] # This list is used to store the movies and the user's rati
 
 window = tk.Tk() # Create a window
 window.title("Movie Recommender") # Title of the window
-window.geometry("800x500") # Size of the window
+window.geometry("1000x600") # Size of the window
 
 movie_df = pd.read_csv("movies.csv")
 
@@ -76,6 +76,33 @@ def select_movie(event):
         search_entry.insert(0, selected_title) # Insert the selected movie title at index 0 of the entry
 
 
+def remove_movie():
+
+    selected = selected_listbox.curselection() # Get the index of the selected item
+
+    if selected: # If the tuple is not empty
+
+        selected_index = selected[0]
+        ''' Since 'selected_movies' and 'selected_listbox' have the same item order,
+         we can use the index from 'selected_listbox' to locate the corresponding item in 'selected_movies' '''
+        selected_movies.pop(selected_index)
+        print(selected_movies)
+
+        selected_listbox.delete(0, tk.END)  # Clear the 'selected_listbox' to update it
+
+        for selected_movie in selected_movies: # To rewrite 'selected_listbox' from 'selected_movies'
+
+            display_text = f"{selected_movie["title"]} ({selected_movie["rating"]})"
+            selected_listbox.insert(tk.END, display_text)
+
+
+def recommend_movies():
+
+    user_movies_df = pd.DataFrame(selected_movies) # The purpose of creating the GUI was to generate this DataFrame for training the model
+
+    #recommendation_df = content_based_recommender(user_movies_df)
+
+
 title_label = tk.Label(window, text="Movie Recommendation System", font=("Arial", 20), fg="navy") # Add title as a label
 title_label.grid(row=0, column=0)
 
@@ -97,6 +124,13 @@ rating_combobox.current(0) # If the user does not enter a rating for the selecte
 # This button adds the entered movie and rating to the selected list, then clears the input fields for the next movie and rating
 add_button = tk.Button(window, text="Add Movie", command=add_movie)
 add_button.grid(row=1, column=2)
+
+# This button removes the selected movie from both 'selected_listbox' and 'selected_movies' list
+remove_button = tk.Button(window, text="Remove Movie", command=remove_movie)
+remove_button.grid(row=1, column=3)
+
+recommend_button = tk.Button(window, text="Recommend", command=recommend_movies)
+recommend_button.grid(row=1, column=4)
 
 # As the user types in the search entry, continuously search the movie dataset and display the search results in the listbox
 search_listbox = tk.Listbox(window, width=50, height=8)
