@@ -16,9 +16,9 @@ movie_df = pd.read_csv("movies.csv") # Movie information
 # -----------------------
 
 movie_df["year"] = movie_df.title.str.extract(r"(\(\d{4}\))", expand=False) # Find '(year)' in 'title' column and store it in 'year' column
-movie_df["year"] = movie_df.year.str.extract(r"(\d{4})") # remove Parenthesis from 'year' column
+movie_df["year"] = movie_df.year.str.extract(r"(\d{4})") # Remove parentheses from the 'year' column
 
-movie_df["title"] = movie_df.title.str.replace(r"(\(\d{4}\))", repl="", regex=True) # Remove '(year)' from 'title' column
+movie_df["title"] = movie_df.title.str.replace(r"(\(\d{4}\))", repl="", regex=True) # Remove '(year)' from the 'title' column
 movie_df["title"] = movie_df["title"].apply(lambda x: x.strip())
 
 movie_df["genres"] = movie_df.genres.str.split("|") # Split the 'genres' values into a usable format
@@ -66,17 +66,18 @@ def recommend_movies(user_input):
     movie_matrix = movie_with_genres[~movie_with_genres["movieId"].isin(user_input["movieId"].to_list())]
     # Set the index as the movieId to identify each row
     movie_matrix = movie_matrix.set_index(movie_matrix["movieId"])
-    # then remove unnecessary columns to create the movie matrix
+    # Then remove unnecessary columns to create the movie matrix
     movie_matrix = movie_matrix.drop("movieId", axis=1).drop("title", axis=1).drop("year", axis=1)
 
     '''
-    Each element of the movieMatrix is scaled by its corresponding genre score in userProfie,
+    Each element of the movie_matrix is scaled by its corresponding genre score in user_profile,
     and summing each row yields the total score per film.
     '''
     recommender = ((movie_matrix * user_profile).sum(axis=1)) / user_profile.sum()
     # Sort movies by scores in descending order so that the highest-scored movies appear first
     recommender = recommender.sort_values(ascending=False)
-    # Retrieve title about the 20 movies with the highest scores
+    # Retrieve the titles of the 20 movies with the highest scores
     recommended_movies = movie_df[movie_df["movieId"].isin(recommender.head(20).keys())]
+    recommended_movies = recommended_movies.sort_values(ascending=False)
 
     return recommended_movies
