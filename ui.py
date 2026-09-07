@@ -181,7 +181,7 @@ def connect_to_recommender():
         )
         return
 
-    for movie in recommendations.head(8)["title"]:
+    for movie in recommendations["title"]:
 
         recommendation_listbox.insert(tk.END, movie)
 

@@ -1,6 +1,7 @@
 # Content-Based Movie Recommender
 
-A simple content-based movie recommendation system built with Python.
+A simple content-based movie recommendation system built with Python and Tkinter.
+
 The application allows users to rate five movies and generates personalized movie recommendations based on their preferences.
 
 ## Features
@@ -33,9 +34,11 @@ Content-Based-Recommender/
 ├── README.md
 ├── requirements.txt
 ├── app.py
-├── movies.csv
+├── ui.py
 ├── recommender.py
-└── ui.py
+├── movies.csv
+└── dist/
+    └── app.exe
 ```
 
 ### Files
@@ -44,7 +47,8 @@ Content-Based-Recommender/
 * **`ui.py`** – Contains the Tkinter graphical user interface.
 * **`recommender.py`** – Handles data preprocessing and movie recommendation logic.
 * **`movies.csv`** – Contains movie information such as titles, genres, and release years.
-* **`requirements.txt`** – Contains the Python packages required by the project.
+* **`requirements.txt`** – Contains the Python packages required to run the project.
+* **`dist/app.exe`** – Standalone Windows executable for users who do not have Python installed.
 
 ## Technologies
 
@@ -52,15 +56,20 @@ Content-Based-Recommender/
 * Pandas
 * Tkinter
 * Git & GitHub
+* PyInstaller
 
 ## Requirements
+
+For running the Python source code:
 
 * Python 3.x
 * Pandas 3.0.5
 
-The required Python packages are listed in `requirements.txt`.
+The required packages are listed in `requirements.txt`.
 
 ## Installation
+
+### For Developers
 
 1. Clone the repository:
 
@@ -86,13 +95,21 @@ myVenv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## Run the Application
-
-From the project directory, run:
+5. Run the application:
 
 ```bash
 python app.py
 ```
+
+## Run Without Python
+
+A standalone Windows executable is included in the `dist` folder.
+
+To run the application:
+
+1. Open the `dist` folder.
+2. Run **`app.exe`**.
+3. No Python installation is required.
 
 ## Usage
 
@@ -107,4 +124,3 @@ python app.py
 ## License
 
 This project is licensed under the MIT License.
-

@@ -8,8 +8,13 @@
 # -----------------------
 
 import pandas as pd
+import os
 
-movie_df = pd.read_csv("movies.csv") # Movie information
+# '__file__' stores the path of the currently running Python file
+# '.dirname' removes the filename from the path
+# '.join' combines the path and filename to create a complete file path
+movie_path = os.path.join(os.path.dirname(__file__), "movies.csv")
+movie_df = pd.read_csv(movie_path) # Movie information
 
 # -----------------------
 # Data preprocessing
@@ -77,7 +82,6 @@ def recommend_movies(user_input):
     # Sort movies by scores in descending order so that the highest-scored movies appear first
     recommender = recommender.sort_values(ascending=False)
     # Retrieve the titles of the 20 movies with the highest scores
-    recommended_movies = movie_df[movie_df["movieId"].isin(recommender.head(20).keys())]
-    recommended_movies = recommended_movies.sort_values(ascending=False)
+    recommended_movies = movie_df[movie_df["movieId"].isin(recommender.head(8).keys())]
 
     return recommended_movies
